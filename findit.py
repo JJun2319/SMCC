@@ -15,12 +15,13 @@ def login():
     driver.find_element_by_xpath('//*[@id="blog"]/div/div[1]/form/table/tbody/tr[1]/td[3]/div').click()
 
 
-def Findbpage():
+def Findbook():
     html = driver.page_source
     soup = bs(html, 'html.parser')
     state = '미완료'
-    status = soup.find_all('div', class_='btn btn-state', text = state)
-    print(status)
+    status = soup.find('div', class_='btn btn-state', text = state)
+    bookno = status.get_text()[12:22]
+    print (bookno)
 
 
 
