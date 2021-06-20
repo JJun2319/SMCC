@@ -9,11 +9,16 @@ driver.get('https://www.scholars.kr/log_in.php')
 
 
 
+
+def findbook():
+    html = driver.page_source
+    soup = bs(html, 'lxml')
+    state = '미완료'
+    data = soup.find('div', class_='btn btn-state', text = state)
+    bookno = int(re.findall('\((.+)\)', data['onclick'])[0].split(',')[4].replace("'", ''))
+    return bookno
+
 target_url = 'https://www.scholars.kr/pc/dictation_play_data.php?bookno=%d&bpage=1' % findit.findbook()
-
-
-
-
 
 def login():
     driver.find_element_by_name('userid').send_keys('조영준')
