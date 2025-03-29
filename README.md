@@ -1,18 +1,35 @@
-# SMCC
-핵심 xhr파일이 url로 response되고 url의 값이변화되는 규칙이있다.<br>X주차 수업, Y번째 문제로 한다면<br>
-```
+# **SMCC Automation Process**  
+
+## **Core Mechanism**  
+The key `XHR` file is received as a URL response, where the URL follows a structured pattern with predictable variations based on lesson progression.  
+
+For a given **Week X** and **Problem Y**, the request follows this format:  
+
 https://www.scholars.kr/pc/dictation_play_data.php?bookno=XXXX&bpage=YYYY
-``` 
-이런식으로 URL을 요청이된다 URL내부는 ```json``` 형식이고 그 값을 dictionary형태로 변환
-## ex)
-``` json
-{"etxt":"How many things do you throw away everyday?","ktxt":"","epara":"","kmean":"","filename1":"b511206442413.mp3"}
-```
 
+The response is in `JSON` format, which needs to be parsed into a dictionary.  
 
-## 매커니즘
-1. 현재 해야되는 학습이 몇주차인지알아내고 bookno에 저장
-2. 학습 시작후 현재 몇번째 문제이고, 총 몇문제인지 알아냄
-3. >현재문제의 답을 알아내는 함수를 총 문제의 갯수만큼 순서대로 반복 
-    >>반복하면서 자동으로 변환된 dictionary에서 etxt의 값을 슬라이싱후 복사
-    >>>복사한 내용을 답 칸에 자동으로 붙혀놓고 Enter키를 send하기
+### **Example Response:**  
+
+```json
+{
+  "etxt": "How many things do you throw away everyday?",
+  "ktxt": "",
+  "epara": "",
+  "kmean": "",
+  "filename1": "b511206442413.mp3"
+}
+
+Automation Workflow
+	1.	Determine the Current Week:
+	•	Identify the current lesson week and store its corresponding bookno.
+	2.	Retrieve Problem Count & Current Progress:
+	•	Extract the total number of problems in the lesson and track the current problem index.
+	3.	Automate Answer Submission:
+	•	Iterate through all problems sequentially.
+	•	Extract the etxt field from the parsed dictionary.
+	•	Automatically copy and paste the extracted text into the answer input field.
+	•	Simulate an Enter key press to submit the answer.
+
+This structured approach ensures a fully automated workflow for handling dictation exercises efficiently.
+
